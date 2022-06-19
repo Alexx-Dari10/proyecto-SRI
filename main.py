@@ -3,12 +3,16 @@ import json
 from document_processing import document_processing
 from query_processing import query_processing
 from query_expansion import query_expansion
+from clustering import clustering
 
 # los documentos deben estar en la carpeta docs del directorio del proyecto
 path = os.getcwd() + '/docs'
 
 # se pasa el path (en el futuro cualquiera) para el procesamiento de documentos
 json_value = json.dumps({'path': path})
+
+clustering(path,5)
+
 document_processing(json_value)
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSERTAR CONSULTA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
