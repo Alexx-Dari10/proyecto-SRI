@@ -17,15 +17,10 @@ def query_synonyms(data):
     symbols = list(punctuation)
     tokens = [item for item in wordpunct_tokenize(data) if (item not in _stopwords + symbols)]
 
-    words = []
-    synonyms = []
+    synonyms = set()
     for token in tokens:
         for syn in wordnet.synsets(token):
-            for lm in syn.lemmas():
-                synonyms.append(lm.name())
+            for lm in syn.lemmas()[:3]:
+                synonyms.add(lm.name())
 
-        synonyms = (set(synonyms))
-        words.extend(list(synonyms)[:5])
-        synonyms = []
-
-    return " ".join(words)
+    return " ".join(list(synonyms))
