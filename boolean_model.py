@@ -10,23 +10,21 @@ from text_processing import text_processing
 class boolean_model:
 
     path = ''
-    query = ''
 
     all_terms = set()
     docs_terms = {}
 
     docs_vectors = {}
 
-    def __init__(self, path, query, number_ofDocs):
+    def __init__(self, path):
         self.path = path
-        self.query = query
-        self.number_ofDocs = number_ofDocs
 
-    def _getResults(self):
         self.process_docs()
         self.docs_boolRepresentation()
 
-        processed_query = self.process_query()
+    def _getResults(self, query, number_ofDocs):
+
+        processed_query = self.process_query(query)
         q_vector = self.query_vector(processed_query)
 
         _dict = self.sim(q_vector)
@@ -34,7 +32,7 @@ class boolean_model:
         result= list(zip(_dict.keys(), _dict.values()))
         result.sort(key=lambda x: x[1], reverse=True)
 
-        json_result = json.dumps({'results':[{'document':dc, 'value':val} for dc, val in result[:self.number_ofDocs]]})
+        json_result = json.dumps({'results':[{'document':dc, 'value':val} for dc, val in result[:number_ofDocs]]})
         
         return json.loads(json_result)
 
@@ -73,8 +71,8 @@ class boolean_model:
             bool_vector.clear()
     
 
-    def process_query(self):
-        json_value = json.dumps({'query': self.query})
+    def process_query(self, query):
+        json_value = json.dumps({'query': query})
         expanded_query = query_expansion(json_value, True)
 
         json_process = json.dumps({'action': 'process', 'data': expanded_query})

@@ -1,19 +1,16 @@
 from decimal import DivisionByZero
 import glob
-import json
 import os
-from document_processing import document_processing
-from query_expansion import query_expansion
-from query_processing import query_processing
 
-def main():
-    path = os.getcwd() + '/collections/prueba_cran'
-    #path = os.getcwd() + '/collections/prueba_med'
+from boolean_model import boolean_model
+from vectorial_model import vectorial_model
 
-    json_value = json.dumps({'path': path})
-    document_processing(json_value)
+def evaluation(path, queries, model, result_file):
 
-    queries = open(os.getcwd() + '/collections/prueba_cran/cranquery.txt','r')
+    _model = model(path)
+
+    # cambiar umbral y numero de documentos aqui
+    limit = 30 if model is boolean_model else 0.1
 
     _precision = 0
     _recall = 0
@@ -30,17 +27,13 @@ def main():
         rr10 = []
 
         if query != '\n':
-            json_value = json.dumps({'query': query})
-            expanded_query = query_expansion(json_value)
-            json_value = json.dumps({'action': 'query', 'query': expanded_query, 'umbral': 0.1})
-            json_result = json.loads(query_processing(json_value))
+            json_result = _model._getResults(query, limit)
 
             for pair in json_result['results']:
                 if(len(r10) < 10):
                     r10.append(pair["document"])
                     
-                file2 = open(os.getcwd() + '/collections/prueba_cran/cranqrel.txt','r')
-                for j in file2:
+                for j in result_file:
                     b =''
                     t = 1
                     for i in j:
@@ -86,14 +79,14 @@ def precision(RR, REC):
     try:
         return RR/REC
     except (ZeroDivisionError):
-        print("No documents recovered")
+        return 0
 
 
 def recall (RR, REL):
     try:
         return RR/REL
     except (ZeroDivisionError):
-        print("No documents recovered")
+        return 0
 
 
 def measure_f (RR, REC, REL, beta):
@@ -113,10 +106,42 @@ def measure_f1 (RR, REC, REL):
 
 
 def r_precision (RR, R):
-    return RR / R
+    return RR / R if R != 0 else 0
 
 
 def fallout (REC, REL, RR, TOTAL):
     return (REC-RR)/(TOTAL - REL) if (TOTAL - REL) != 0 else 0
+
+
+def main():
+
+
+    path_cran = os.getcwd() + '/collections/prueba_cran/cran'
+    path_med = os.getcwd() + '/collections/prueba_med/med'
+
+    queries_cran = open(os.getcwd() + '/collections/prueba_cran/cranquery.txt','r')
+    queries_med = open(os.getcwd() + '/collections/prueba_med/medquery.txt','r')
+
+    resultFile_cran = open(os.getcwd() + '/collections/prueba_cran/cranqrel.txt','r')
+    resultFile_med = open(os.getcwd() + '/collections/prueba_med/medqrel.txt','r')
+
+
+    print("=========================== PRUEBA DE CRANFIELD ============================================")
+    print("--------------------------- Modelo Booleano --------------------------------------------")
+    evaluation(path_cran, queries_cran, boolean_model, resultFile_cran)
+    print('\n\n')
+
+    print("--------------------------- Modelo Vectorial --------------------------------------------")
+    evaluation(path_cran, queries_cran, vectorial_model, resultFile_cran)
+    print("===============================================================================================\n\n")
+
+
+    print("=========================== PRUEBA DE MEDLINE =================================================")
+    print("--------------------------- Modelo Booleano -----------------------------------------------")
+    evaluation(path_med, queries_med, boolean_model, resultFile_med)
+    print('\n\n')
+
+    print("--------------------------- Modelo Vectorial --------------------------------------------")
+    evaluation(path_med, queries_med, vectorial_model, resultFile_med)
 
 main()

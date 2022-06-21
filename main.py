@@ -21,12 +21,12 @@ no_docs = 30
 clust_docs, doc_clust = clustering(path, 5)
 
 # modelo vectorial
-_vectModel = vectorial_model(path, query, umbral)
-vect_jsonResults = _vectModel._getResults()
+_vectModel = vectorial_model(path)
+vect_jsonResults = _vectModel._getResults(query, umbral)
 
 # modelo booleano
-_boolModel = boolean_model(path, query, no_docs)
-bool_jsonResults = _boolModel._getResults()
+_boolModel = boolean_model(path)
+bool_jsonResults = _boolModel._getResults(query, no_docs)
 
 
 
