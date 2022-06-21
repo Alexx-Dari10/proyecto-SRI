@@ -25,4 +25,5 @@ def query(query, umbral):
 
 	result= list(zip(dicc_ranking.keys(), dicc_ranking.values()))
 	result.sort(key=lambda x: x[1], reverse=True)
+	
 	return json.dumps({'results':[{'document':dc, 'value':val} for dc, val in result if val >= umbral]})

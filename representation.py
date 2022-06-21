@@ -1,6 +1,7 @@
 from nltk import FreqDist
 import math
 
+# cada termino tiene asociado su tf, idf, w y los documentos donde se encuentra
 def terms(doc, terms, data):
 	freq = FreqDist(terms)
 	max_freq = max(freq.values()if len(freq) > 0 else [0])
