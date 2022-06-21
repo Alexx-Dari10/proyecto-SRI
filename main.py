@@ -11,7 +11,8 @@ path = os.getcwd() + '/docs'
 # se pasa el path (en el futuro cualquiera) para el procesamiento de documentos
 json_value = json.dumps({'path': path})
 
-#clustering(path,5)
+# clustering 
+clust_docs, doc_clust = clustering(path,5)
 
 document_processing(json_value)
 

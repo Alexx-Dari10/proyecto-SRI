@@ -45,7 +45,8 @@ def clustering(path, num_clusters):
             doc_list.append(title)
             doc_clust[title] = i
         clust_docs[i] = (doc_list,label_list)
-    return
+    
+    return clust_docs, doc_clust
     
     
 def tokenize_stemmer(text):
