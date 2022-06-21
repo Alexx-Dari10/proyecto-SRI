@@ -9,7 +9,7 @@ from text_processing import text_processing
 
 class boolean_model:
 
-    path = []
+    path = ''
     query = ''
 
     all_terms = set()
@@ -22,7 +22,7 @@ class boolean_model:
         self.query = query
         self.number_ofDocs = number_ofDocs
 
-    def start(self):
+    def _getResults(self):
         self.process_docs()
         self.docs_boolRepresentation()
 
@@ -30,10 +30,13 @@ class boolean_model:
         q_vector = self.query_vector(processed_query)
 
         _dict = self.sim(q_vector)
-        results = list(zip(_dict.keys(), _dict.values()))
-        results.sort(key=lambda x: x[1], reverse=True)
+        
+        result= list(zip(_dict.keys(), _dict.values()))
+        result.sort(key=lambda x: x[1], reverse=True)
 
-        return json.dumps({'results':[{'document':dc, 'value':val} for dc, val in results[:self.number_ofDocs]]})
+        json_result = json.dumps({'results':[{'document':dc, 'value':val} for dc, val in result[:self.number_ofDocs]]})
+        
+        return json.loads(json_result)
 
 
     def get_terms(self): return list(self.all_terms)
@@ -72,7 +75,7 @@ class boolean_model:
 
     def process_query(self):
         json_value = json.dumps({'query': self.query})
-        expanded_query = query_expansion(json_value)
+        expanded_query = query_expansion(json_value, True)
 
         json_process = json.dumps({'action': 'process', 'data': expanded_query})
         return json.loads(text_processing(json_process))['terms']
@@ -110,14 +113,3 @@ class boolean_model:
             count = 0
         
         return dictionary
-
-
-
-
-
-path = os.getcwd() + '/docs'
-query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
-
-a = boolean_model(path, query, 30)
-docs = a.start()
-docs

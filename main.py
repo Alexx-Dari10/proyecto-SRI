@@ -1,38 +1,45 @@
 import os
-import json
-from document_processing import document_processing
-from query_processing import query_processing
-from query_expansion import query_expansion
+
+from boolean_model import boolean_model
 from clustering import clustering
+from vectorial_model import vectorial_model
 
 # los documentos deben estar en la carpeta docs del directorio del proyecto
 path = os.getcwd() + '/docs'
 
-# se pasa el path (en el futuro cualquiera) para el procesamiento de documentos
-json_value = json.dumps({'path': path})
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSERTAR CONSULTA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CAMBIAR UMBRAL AQUI (VECTORIAL) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+umbral = 0.1
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!! NUMERO DE DOCUMENTOS A DEVOLVER (BOOLEANO) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+no_docs = 30
+
 
 # clustering 
 clust_docs, doc_clust = clustering(path, 5)
 
-document_processing(json_value)
+# modelo vectorial
+_vectModel = vectorial_model(path, query, umbral)
+vect_jsonResults = _vectModel._getResults()
 
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSERTAR CONSULTA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
+# modelo booleano
+_boolModel = boolean_model(path, query, no_docs)
+bool_jsonResults = _boolModel._getResults()
 
-
-# expansion de consulta
-json_value = json.dumps({'query': query})
-expanded_query = query_expansion(json_value)
-
-
-# procesamiento de consulta y devolucion de resultados
-# !!!!!!!!!!!!!!!!!! CAMBIAR UMBRAL AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-json_value = json.dumps({'action': 'query', 'query': expanded_query, 'umbral': 0.1})
-json_result = json.loads(query_processing(json_value))
 
 
 # pintar resultados en consola
 print(f"query: {query}")
+
+print("----------------------MODELO VECTORIAL---------------------------------------")
 print ("-------------RESULTS------------")
-for i, _result in enumerate (json_result['results']):
+for i, _result in enumerate (vect_jsonResults['results']):
+    print(f"{i+1} -- {_result['document']}, value: {_result['value']}")
+
+
+print("----------------------MODELO BOOLEANO---------------------------------------")
+print ("-------------RESULTS------------")
+for i, _result in enumerate (bool_jsonResults['results']):
     print(f"{i+1} -- {_result['document']}, value: {_result['value']}")

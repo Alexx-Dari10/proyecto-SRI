@@ -6,13 +6,13 @@ from nltk.corpus import wordnet
 
 
 # expansion de consulta usando sus sinonimos
-def query_expansion(json_request):
+def query_expansion(json_request, _isBoolean = False):
     data = json.loads(json_request)
-    return data['query'] + " " + query_synonyms(data['query'])
+    return data['query'] + " " + query_synonyms(data['query'], _isBoolean)
     
 
 # por cada termino de la consulta, esta se expande con algunos sinonimos
-def query_synonyms(data):
+def query_synonyms(data, _isBoolean):
     _stopwords = stopwords.words('english')
     symbols = list(punctuation)
     tokens = [item for item in wordpunct_tokenize(data) if (item not in _stopwords + symbols)]
@@ -21,7 +21,7 @@ def query_synonyms(data):
     for token in tokens:
         for syn in wordnet.synsets(token):
             for lm in syn.lemmas():
-                if len(synonyms) > 5: break
+                if len(synonyms) > 5 and not _isBoolean: break
                 synonyms.add(lm.name())
                 
 
