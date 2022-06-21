@@ -7,9 +7,12 @@ def sim(query_data, query_terms):
 	docs = valid_docs (query_terms)
 	dicc_ranking = {}
 
+	_djq = djq(query_data, docs)
+	_dj = dj()
+	_q = q(query_data)['query']
 	for doc in docs.keys():
 		if doc not in dicc_ranking:
-			dicc_ranking[doc] = (djq(query_data, docs)[doc]/(dj()[doc]['w']*q(query_data)['query']))
+			dicc_ranking[doc] = (_djq[doc] / (_dj[doc]['w']*_q))
 	return dicc_ranking
 
 # documentos en los que aparecen terminos de la consulta

@@ -17,7 +17,7 @@ def query(query, umbral):
 	query_terms = json.loads(text_processing(json_process))['terms']
 	query_data = []
 
-	terms('query', query_terms,query_data)
+	terms('query', query_terms, query_data)
 	idf(query_data, 1)
 	w(query_data, 0.5)
 

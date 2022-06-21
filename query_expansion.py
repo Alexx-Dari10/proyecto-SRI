@@ -20,7 +20,9 @@ def query_synonyms(data):
     synonyms = set()
     for token in tokens:
         for syn in wordnet.synsets(token):
-            for lm in syn.lemmas()[:3]:
+            for lm in syn.lemmas():
+                if len(synonyms) > 5: break
                 synonyms.add(lm.name())
+                
 
     return " ".join(list(synonyms))
