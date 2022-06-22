@@ -102,11 +102,8 @@ class boolean_model:
         for i in self.docs_vectors:
     
             for t in range(term_Len):
-                if(q_vect[t] == self.docs_vectors[i][t] and q_vect[t]):
+                if(q_vect[t] == self.docs_vectors[i][t]):
                     count += 1
-
-            if count > 0:
-                dictionary.update({i: count})
 
             count = 0
         
