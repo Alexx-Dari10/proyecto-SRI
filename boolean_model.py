@@ -105,6 +105,7 @@ class boolean_model:
                 if(q_vect[t] == self.docs_vectors[i][t]):
                     count += 1
 
+            dictionary.update({i: count})
             count = 0
         
         return dictionary
