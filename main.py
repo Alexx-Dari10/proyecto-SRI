@@ -11,10 +11,10 @@ path = os.getcwd() + '/docs'
 query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CAMBIAR UMBRAL AQUI (VECTORIAL) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-umbral = 0.1
+umbral = 0.11
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!! NUMERO DE DOCUMENTOS A DEVOLVER (BOOLEANO) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-no_docs = 30
+no_docs = 25
 
 
 # clustering 

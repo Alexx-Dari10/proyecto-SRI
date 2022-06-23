@@ -126,6 +126,8 @@ def main():
     resultFile_med = open(os.getcwd() + '/collections/prueba_med/medqrel.txt','r')
 
 
+
+
     print("=========================== PRUEBA DE CRANFIELD ============================================")
     print("--------------------------- Modelo Booleano --------------------------------------------")
     evaluation(path_cran, queries_cran, boolean_model, resultFile_cran)
