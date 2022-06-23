@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title> SRI</title>
+        
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/animate.min.css')}}">
+        
+        
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <link id="css-preset" rel="stylesheet" href="{{url_for('static', filename='css/presets/preset1.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/responsive.css')}}">
+
+        <link rel="shortcut icon" href="{{url_for('static', filename='images/1.ico')}}">
+    </head>
+
+    <body>
+        <!--.preloader-->
+        <div class="preloader"> <i class="fa fa-circle-o-notch fa-spin"></i></div>
+        <!--/.preloader-->
+
+        <header id="home">
+             
+              <div class="header">
+                <div class="header-left">
+                  <label for="">Model   </label>
+                    <select name="model" id="model" value="vectorial" onchange="assignModelCollection()">
+            
+                      <optgroup label="model">
+                        <option value="vectorial">Vectorial</option>
+                        <option value="booleano">Booleano</option>
+                        
+                      </optgroup>
+                  
+                    </select>
+                </div>
+
+                <div class="header-right">
+                  <label for="">Collection   </label>
+                    <select name="collection" id="collection" value="cranfield" onchange="assignModelCollection()">
+            
+                      <optgroup label="Collection">
+                        <option value="cranfield">Cranfield</option>
+                        <option value="reuters-21578">Reuters-21578</option>
+                        <option value="20-Newsgroups">20 Newsgroups</option>
+                        
+                      </optgroup>
+                  
+                    </select>
+
+                </div>
+              </div> 
+
+            <div id="home-slider" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="item active" style="background-image: url(../static/images/google.jpg)">
+                    <div class="caption">
+                      <h1 class="animated fadeInLeftBig"><span>Welcome to Google 2.0</span></h1>
+                      <p class="animated fadeInRightBig">Information Retrieval System </p>
+                      <form action="/index" method="POST" class="form">
+                        <input type="hidden" name="model" id="_model" value="vectorial">
+                        <input type="hidden" name="collection" id="_collection" value="cranfield">
+                        <button type="submit" data-scroll class="btn btn-start animated fadeInUpBig" style="text-align: center; padding: 32px;" onclick="showCircleProgress(event)">
+                            Start now
+                        </button>
+                        <br />
+                        <div id ="circle"></div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div><!--/#home-slider-->
+            
+        </header>
+
+        <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/jquery.inview.min.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script>
+          function assignModelCollection(){
+            document.getElementById('_model').value = document.getElementById('model').value
+            document.getElementById('_collection').value = document.getElementById('collection').value
+          }
+
+          function showCircleProgress(event){
+           
+            document.getElementById("circle").innerHTML = '<div><label for="">Loading Collection </label>  <div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10">Loading collection</circle></svg></div></div>';
+          }1
+        </script>
+    </body>
+</html>

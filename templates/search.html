@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title> SRI</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+        <link rel="shortcut icon" href="{{url_for('static', filename='images/1.ico')}}">
+        
+        <link rel="stylesheet" href="{{url_for('static', filename='styles/global.css')}}" />
+        
+    </head>
+    <body >
+      <header>
+        <div class="header" style="justify-content: flex-start;">
+            <a href="/index"  class="logo"  > 
+                <img alt="Qries" src="{{url_for('static', filename='assets/logo.png')}}"
+                width="100" height="40">
+            </a>
+            
+            <form action="/search" method="POST" class="form">
+                <div class="search" style="justify-content: flex-start;">
+                
+                <input type="text" name="query" />
+    
+                <button type="button" title="Search by voice">
+                    <!-- Icon mic -->
+                    <svg class="icon-mic" class="goxjub" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285f4" d="m12 15c1.66 0 3-1.31 3-2.97v-7.02c0-1.66-1.34-3.01-3-3.01s-3 1.34-3 3.01v7.02c0 1.66 1.34 2.97 3 2.97z"></path><path fill="#34a853" d="m11 18.08h2v3.92h-2z"></path><path fill="#fbbc05" d="m7.05 16.87c-1.27-1.33-2.05-2.83-2.05-4.87h2c0 1.45 0.56 2.42 1.47 3.38v0.32l-1.15 1.18z"></path><path fill="#ea4335" d="m12 16.93a4.97 5.25 0 0 1 -3.54 -1.55l-1.41 1.49c1.26 1.34 3.02 2.13 4.95 2.13 3.87 0 6.99-2.92 6.99-7h-1.99c0 2.92-2.24 4.93-5 4.93z"></path></svg>
+                </button>
+
+                <!-- Icon search -->
+                <svg class="icon-search" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+    
+                <input type="submit" hidden value="">
+                </div>
+    
+            </form>
+            
+          <div class="header-right">
+              <form action="/" method="get"><a href="/">Home</a></form>
+          </div>
+        </div> 
+      </header>
+        
+      
+        <div style="margin-left: 100px ; margin-top: 50px;">
+            <div id="_results" ></div>  <br />
+                
+        </div>
+      
+      <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{url_for('static', filename='js/file.js')}}"></script>
+      <script>
+        var docs_list = {{docs| tojson}} // ESTO ES LA TIZAAAAAA
+        var collection = {{collection| tojson}}
+       
+        show_results(docs_list, collection);
+
+        function show_results(docs_list, collection) {
+            var list_results = '<nav>'
+            list_results = '<ul>';
+                
+            for(i=0; i<docs_list.length; i++){
+                console.log(docs_list[i]);
+                list_results += "<li>" + '<a href="'+'static/docs/' + collection +'/' + docs_list[i]+ '">' + docs_list[i] + "</a>" + "</li>"
+                list_results += "</br>";
+                list_results += "</br>";
+                list_results += "</br>";
+            }
+            list_results += '</ul>';
+            list_results += '</nav>';
+
+            document.getElementById("_results").innerHTML = list_results;
+        }
+
+      </script>
+    </body>
+
+</html>
