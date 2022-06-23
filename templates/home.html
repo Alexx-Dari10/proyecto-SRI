@@ -59,11 +59,13 @@
                       <h1 class="animated fadeInLeftBig"><span>Welcome to Google 2.0</span></h1>
                       <p class="animated fadeInRightBig">Information Retrieval System </p>
                       <form action="/index" method="POST" class="form">
-                        <input type="hidden" name="model" id="_model" value="vectorial">
-                        <input type="hidden" name="collection" id="_collection" value="cranfield">
-                        <button type="submit" data-scroll class="btn btn-start animated fadeInUpBig" style="text-align: center; padding: 32px;" onclick="showCircleProgress(event)">
+                        
+                        <button type="submit" data-scroll class="btn btn-start animated fadeInUpBig" style="text-align: center; align-items: center;" onclick="showCircleProgress(event)">
                             Start now
                         </button>
+                        <input type="hidden" name="model" id="_model" value="vectorial">
+                        <input type="hidden" name="collection" id="_collection" value="cranfield">
+                        
                         <br />
                         <div id ="circle"></div>
                       </form>

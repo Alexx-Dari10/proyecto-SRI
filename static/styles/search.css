@@ -1,7 +1,7 @@
 .search {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   width: 584px;
   height: 46px;

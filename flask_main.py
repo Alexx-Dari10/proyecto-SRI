@@ -12,7 +12,7 @@ from vectorial_model import vectorial_model
 
 # VARIABLES
 _host = 'localhost'
-_port = 3005
+_port = 3000
 
 global _model, _collection
 
@@ -91,7 +91,7 @@ def search():
     for i in range(0, len(results)): 
         docs.append(results[i]['document'])
     
-    return render_template('search.html', docs=docs, collection=_collection)
+    return render_template('search.html', docs=docs, collection=_collection, query=query)
 
 
 @app.route('/about', methods=["GET"])
@@ -105,7 +105,7 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    #webbrowser.open(f'http://{_host}:{_port}', new=2)
+    webbrowser.open(f'http://{_host}:{_port}', new=2)
 
     # el debug en true es para poder recargar los cambios
     app.run(host=_host, port=_port, debug=False)
