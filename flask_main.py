@@ -33,7 +33,7 @@ def initModel(model, collection):
     no_docs = 30
 
     # clustering 
-    clust_docs, doc_clust = clustering(path, 5)
+    clust_docs, doc_clust = clustering(path)
 
     if model == 'vectorial':
         # modelo vectorial
