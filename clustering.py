@@ -37,14 +37,15 @@ def clustering(path, num_clusters):
 
     for i in range(num_clusters):
         doc_list = []
-        label_list = []
         
-        label_list.append("Cluster:" + str(i+1))
+        _cluster = "Cluster" + str(i+1)
              
         for title in frame.loc[i]['title'].values.tolist():
             doc_list.append(title)
-            doc_clust[title] = i
-        clust_docs[i] = (doc_list,label_list)
+            doc_clust[title] = _cluster
+        
+        clust_docs[_cluster] = doc_list
+        
     
     return clust_docs, doc_clust
     

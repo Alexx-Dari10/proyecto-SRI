@@ -1,6 +1,6 @@
 
 from operator import mod
-from flask import Flask, request, render_template,jsonify
+from flask import Flask, request, render_template,jsonify, redirect,url_for
 import webbrowser
 
 import os
@@ -15,7 +15,7 @@ _host = 'localhost'
 _port = 3000
 
 global _model, _collection
-
+global clust_docs, doc_clust
 
 
 # APP
@@ -23,12 +23,14 @@ app = Flask(__name__)
 
 
 def initModel(model, collection):
+
+    global clust_docs, doc_clust
+
     # los documentos deben estar en la carpeta docs del directorio del proyecto
     path = os.getcwd() + '/static/docs/' + collection
 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!! NUMERO DE DOCUMENTOS A DEVOLVER (BOOLEANO) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     no_docs = 30
-
 
     # clustering 
     clust_docs, doc_clust = clustering(path, 5)
@@ -81,9 +83,10 @@ def index():
 
 @app.route('/search', methods=["POST"])
 def search():
+    global clust_docs, doc_clust
     global _model
     global _collection
-    
+
     query = request.form['query']
     results = jsonResult(query)['results']
 
@@ -91,12 +94,16 @@ def search():
     for i in range(0, len(results)): 
         docs.append(results[i]['document'])
     
-    return render_template('search.html', docs=docs, collection=_collection, query=query)
+    return render_template('search.html', docs=docs, collection=_collection, query=query, clust_docs=clust_docs, doc_clust=doc_clust)
 
 
-@app.route('/about', methods=["GET"])
-def about():
-    return render_template('about.html')
+
+
+@app.route('/cluster', methods=["POST"])
+def cluster():
+    topic = request.form['topic']
+    docs_topic = clust_docs[topic]
+    return render_template('clusters.html', topic=topic, docs=docs_topic, collection=_collection)
 
 
 @app.errorhandler(404)

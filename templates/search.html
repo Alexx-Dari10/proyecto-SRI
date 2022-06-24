@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title> SRI</title>
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/animate.min.css')}}">
         
         <link rel="shortcut icon" href="{{url_for('static', filename='images/1.ico')}}">
         
@@ -71,21 +73,31 @@
             <div id="_results" ></div>  <br />
         </div>
       
+      <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='js/jquery.inview.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>
       <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
       <script src="{{url_for('static', filename='js/file.js')}}"></script>
       <script>
         var docs_list = {{docs| tojson}} // ESTO ES LA TIZAAAAAA
         var collection = {{collection| tojson}}
-       
-        show_results(docs_list, collection);
+        var doc_clust = {{doc_clust| tojson}}
+        var clust_docs = {{clust_docs| tojson}}
+        
+        console.log(doc_clust);
+        console.log(clust_docs);
 
-        function show_results(docs_list, collection) {
+        show_results(docs_list, collection,doc_clust,clust_docs);
+
+        function show_results(docs_list, collection,doc_clust,clust_docs) {
             
             list_results = '<ul>';
                 
             for(i=0; i<docs_list.length; i++){
-                console.log(docs_list[i]);
                 list_results += "<li>" + '<a href="'+'static/docs/' + collection +'/' + docs_list[i]+ '">' + docs_list[i] + "</a>" + "</li>"
+                list_results += "<form action="+'/cluster'+" method="+'POST'+" >" + "<input type="+'submit'+" class="+'btn-link'+" name="+'topic'+" value="+ doc_clust[docs_list[i]]+ ">" + "</form>"
+                //list_results += "<li>" + '<a href="' + doc_clust[docs_list[i]]+ '">' + doc_clust[docs_list[i]] + "</a>" + "</li>"
                 list_results += "</br>";
                 list_results += "</br>";
                 list_results += "</br>";

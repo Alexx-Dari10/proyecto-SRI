@@ -13,12 +13,13 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  color: rgb(8, 92, 248);
 }
 
 h2 {
   font-size: 30px;
   margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 h3 {
@@ -328,4 +329,17 @@ a:hover {
   80%, 90%{
     stroke: yellow;
   }
+}
+
+
+.btn-link {
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  color: #0000EE;
+  padding: 0;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
 }
