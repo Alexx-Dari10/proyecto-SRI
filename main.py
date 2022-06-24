@@ -5,7 +5,7 @@ from clustering import clustering
 from vectorial_model import vectorial_model
 
 # los documentos deben estar en la carpeta docs del directorio del proyecto
-path = os.getcwd() + '/docs'
+path = os.getcwd() + '/docs/cranfield'
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSERTAR CONSULTA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
@@ -18,7 +18,7 @@ no_docs = 25
 
 
 # clustering 
-clust_docs, doc_clust = clustering(path, 5)
+clust_docs, doc_clust = clustering(path)
 
 # modelo vectorial
 _vectModel = vectorial_model(path)

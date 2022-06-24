@@ -1,3 +1,4 @@
+import math
 import pandas 
 import nltk
 import re
@@ -6,7 +7,7 @@ from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 
-def clustering(path, num_clusters):
+def clustering(path):
     titles = []
     content = []
     
@@ -20,8 +21,25 @@ def clustering(path, num_clusters):
     tfidf_vector = TfidfVectorizer(max_df=0.8, max_features=200000000, min_df=0.2, stop_words='english',use_idf=True,tokenizer=tokenize_stemmer,ngram_range=(1,3))
     tfidf_matrix = tfidf_vector.fit_transform(content)
 
-    kmeans = KMeans(n_clusters=num_clusters)
-    kmeans.fit(tfidf_matrix)
+ # metodo del codo
+    i = -1
+    inertia = []
+    for num_clusters in range(1,len(titles)):
+        kmeans = KMeans(n_clusters=num_clusters)
+        kmeans.fit(tfidf_matrix)
+        _sum = 0
+        for d in kmeans.transform(tfidf_matrix):
+            _sum += min(d)**2
+        
+        inertia.append(_sum)
+        
+        if len(inertia) > 1:
+            if math.fabs(inertia[i+1] - inertia[i]) < 15:
+                break        
+        
+        i+=1
+        
+    # analisis y devolucion de resultados
     clusters = kmeans.labels_.tolist()
 
     docs =  {    
