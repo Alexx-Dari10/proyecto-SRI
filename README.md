@@ -29,7 +29,7 @@ Luego en
           hiddenimports = collect_submodules('sklearn'),
                   ...
                   )
-establecer la propiedad hiddenimports como se indicó anteriormente
+establecer la propiedad *hiddenimports* como se indicó anteriormente
 	
 	
 Ejecutamos en la consola 
