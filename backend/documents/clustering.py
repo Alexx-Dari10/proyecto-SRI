@@ -11,15 +11,21 @@ def clustering(path):
     titles = []
     content = []
     empty_collection = False
+    dict_docs_line = {}
 
     if os.path.isdir(path):
-        for root, dirs, files in os.walk(path):
+        for root, _, files in os.walk(path):
             if len(files) == 0:
-                return [],[],True
+                return [],[],True,dict_docs_line
             for filename in files:
                 with open(os.path.join(root,filename), encoding='utf8', errors='ignore') as f:
                     titles.append(filename)
-                    content.append(f.read())   
+                    lines = f.read()
+                    content.append(lines)
+
+                    first_line = lines.split('\n', 1)[0] + "..."
+                   
+                    dict_docs_line[filename] = first_line  
 
     tfidf_vector = TfidfVectorizer(max_df=0.8, max_features=200000000, min_df=0.2, stop_words='english',use_idf=True,tokenizer=tokenize_stemmer,ngram_range=(1,3))
     tfidf_matrix = tfidf_vector.fit_transform(content)
@@ -68,7 +74,7 @@ def clustering(path):
         clust_docs[_cluster] = doc_list
         
     
-    return clust_docs, doc_clust, empty_collection
+    return clust_docs, doc_clust, empty_collection, dict_docs_line
     
     
 def tokenize_stemmer(text):

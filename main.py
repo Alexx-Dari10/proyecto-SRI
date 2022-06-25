@@ -10,10 +10,11 @@ from backend.models.vectorial_model import vectorial_model
 
 # VARIABLES
 _host = 'localhost'
-_port = 3000
+_port = 3002
 
 global _model, _collection
 global clust_docs, doc_clust
+global dict_docs_line
 
 
 # APP
@@ -23,6 +24,7 @@ app = Flask(__name__)
 def initModel(model, collection):
 
     global clust_docs, doc_clust
+    global dict_docs_line
 
     # los documentos deben estar en la carpeta docs del directorio del proyecto
     path = os.getcwd() + '/static/collections/' + collection
@@ -30,7 +32,7 @@ def initModel(model, collection):
     
 
     # clustering 
-    clust_docs, doc_clust, empty_collection = clustering(path)
+    clust_docs, doc_clust, empty_collection, dict_docs_line = clustering(path)
 
     if model == 'vectorial':
         # modelo vectorial
@@ -76,7 +78,7 @@ def home():
 @app.route('/index', methods=["GET", "POST"])
 def index():
     global _collection
-    global _model
+    global _model, dict_docs_line
     
     
     if request.method == 'POST':
@@ -101,7 +103,7 @@ def index():
 def search():
     global clust_docs, doc_clust
     global _model
-    global _collection
+    global _collection, dict_docs_line
 
     query = request.form['query']
     results = jsonResult(query)['results']
@@ -110,16 +112,17 @@ def search():
     for i in range(0, len(results)): 
         docs.append(results[i]['document'])
     
-    return render_template('search.html', docs=docs, collection=_collection, query=query, clust_docs=clust_docs, doc_clust=doc_clust)
+    return render_template('search.html', docs=docs, collection=_collection, query=query, clust_docs=clust_docs, doc_clust=doc_clust, dict_docs_line=dict_docs_line)
 
 
 
 
 @app.route('/cluster', methods=["POST"])
 def cluster():
+    global dict_docs_line
     topic = request.form['topic']
     docs_topic = clust_docs[topic]
-    return render_template('clusters.html', topic=topic, docs=docs_topic, collection=_collection)
+    return render_template('clusters.html', topic=topic, docs=docs_topic, collection=_collection, dict_docs_line=dict_docs_line)
 
 
 @app.errorhandler(404)

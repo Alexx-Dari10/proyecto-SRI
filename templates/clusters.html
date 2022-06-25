@@ -63,6 +63,7 @@
         var topic = {{topic| tojson}}
         var docs = {{docs| tojson}}
         var collection = {{collection|tojson}}
+        var dict_docs_line = {{dict_docs_line | tojson}}
 
         console.log(topic)
         show_results(docs,collection);
@@ -73,9 +74,7 @@
                 
             for(i=0; i<docs.length; i++){
                 list_results += "<li>" + '<a href="'+'static/collections/' + collection +'/' + docs[i]+ '">' + docs[i] + "</a>" + "</li>"
-                
-                list_results += "</br>";
-                list_results += "</br>";
+                list_results += "<p>" +dict_docs_line[docs[i]] + "</p>"
                 list_results += "</br>";
             }
             list_results += '</ul>';
