@@ -80,13 +80,11 @@
       <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
       <script src="{{url_for('static', filename='js/file.js')}}"></script>
       <script>
-        var docs_list = {{docs| tojson}} // ESTO ES LA TIZAAAAAA
+        var docs_list = {{docs| tojson}}
         var collection = {{collection| tojson}}
         var doc_clust = {{doc_clust| tojson}}
         var clust_docs = {{clust_docs| tojson}}
         
-        console.log(doc_clust);
-        console.log(clust_docs);
 
         show_results(docs_list, collection,doc_clust,clust_docs);
 
@@ -95,7 +93,7 @@
             list_results = '<ul>';
                 
             for(i=0; i<docs_list.length; i++){
-                list_results += "<li>" + '<a href="'+'static/docs/' + collection +'/' + docs_list[i]+ '">' + docs_list[i] + "</a>" + "</li>"
+                list_results += "<li>" + '<a href="'+'static/collections/' + collection +'/' + docs_list[i]+ '">' + docs_list[i] + "</a>" + "</li>"
                 list_results += "<form action="+'/cluster'+" method="+'POST'+" >" + "<input type="+'submit'+" class="+'btn-link'+" name="+'topic'+" value="+ doc_clust[docs_list[i]]+ ">" + "</form>"
                 
                 list_results += "</br>";
