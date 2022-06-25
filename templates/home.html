@@ -25,7 +25,7 @@
               <div class="header">
                 <div class="header-left">
                   <label for="">Model   </label>
-                    <select name="model" id="model" value="vectorial" onchange="assignModelCollection()">
+                    <select name="model" id="model" value="vectorial">
             
                       <optgroup label="model">
                         <option value="vectorial">Vectorial</option>
@@ -38,17 +38,8 @@
 
                 <div class="header-right">
                   <label for="">Collection   </label>
-                    <select name="collection" id="collection" value="cranfield" onchange="assignModelCollection()">
-            
-                      <optgroup label="Collection">
-                        <option value="cranfield">Cranfield</option>
-                        <option value="reuters-21578">Reuters-21578</option>
-                        <option value="20-Newsgroups">20 Newsgroups</option>
-                        
-                      </optgroup>
-                  
-                    </select>
-
+                  <div id="list_collections"></div>
+                  </select>>
                 </div>
               </div> 
 
@@ -60,7 +51,7 @@
                       <p class="animated fadeInRightBig">Information Retrieval System </p>
                       <form action="/index" method="POST" class="form">
                         
-                        <button type="submit" data-scroll class="btn btn-start animated fadeInUpBig" style="text-align: center; align-items: center;" onclick="showCircleProgress(event)">
+                        <button type="submit" data-scroll class="btn btn-start animated fadeInUpBig" style="text-align: center; align-items: center;"  onclick="onClickStart(event)">
                             Start now
                         </button>
                         <input type="hidden" name="model" id="_model" value="vectorial">
@@ -81,15 +72,42 @@
         <script type="text/javascript" src="{{url_for('static', filename='js/jquery.inview.min.js')}}"></script>
         <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>
         <script>
+          var subdirectories = {{subdirectories|tojson}};
+
+          window.onload = listSubDirectories(subdirectories);
+
+
+          function listSubDirectories(subdirectories){
+
+            var coll = "<select name="+'collection'+" id="+'collection'+" value="+ subdirectories[0] +" >"; 
+            coll += "<optgroup label="+'Collection'+"" + ">";
+            
+            
+            for(i=0;i<subdirectories.length; i++){
+              coll += "<option value="+subdirectories[i]+">"+ subdirectories[i] +"</option>";
+            }
+           
+            coll += "</optgroup>";
+            coll += "</select>";
+            
+            document.getElementById("list_collections").innerHTML = coll;
+          
+          }
+
           function assignModelCollection(){
             document.getElementById('_model').value = document.getElementById('model').value
             document.getElementById('_collection').value = document.getElementById('collection').value
           }
 
           function showCircleProgress(event){
-           
             document.getElementById("circle").innerHTML = '<div><label for="">Loading Collection </label>  <div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10">Loading collection</circle></svg></div></div>';
-          }1
+          }
+          
+          function onClickStart(event){
+            assignModelCollection();
+            showCircleProgress(event);
+          }
+          
         </script>
     </body>
 </html>

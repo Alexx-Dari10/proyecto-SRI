@@ -97,7 +97,7 @@
             for(i=0; i<docs_list.length; i++){
                 list_results += "<li>" + '<a href="'+'static/docs/' + collection +'/' + docs_list[i]+ '">' + docs_list[i] + "</a>" + "</li>"
                 list_results += "<form action="+'/cluster'+" method="+'POST'+" >" + "<input type="+'submit'+" class="+'btn-link'+" name="+'topic'+" value="+ doc_clust[docs_list[i]]+ ">" + "</form>"
-                //list_results += "<li>" + '<a href="' + doc_clust[docs_list[i]]+ '">' + doc_clust[docs_list[i]] + "</a>" + "</li>"
+                
                 list_results += "</br>";
                 list_results += "</br>";
                 list_results += "</br>";
@@ -105,6 +105,8 @@
             list_results += '</ul>';
             
             document.getElementById("_results").innerHTML = list_results;
+
+            
         }
 
       </script>

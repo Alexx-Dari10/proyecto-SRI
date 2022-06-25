@@ -17,11 +17,13 @@ def query(query, umbral):
 	query_terms = json.loads(text_processing(json_process))['terms']
 	query_data = []
 
+	if not query_terms: return json.dumps({'results':[]})
+
 	terms('query', query_terms, query_data)
 	idf(query_data, 1)
 	w(query_data, 0.5)
 
-	dicc_ranking = sim(query_data, query_terms) 
+	dicc_ranking = sim(query_data, query_terms)
 
 	result= list(zip(dicc_ranking.keys(), dicc_ranking.values()))
 	result.sort(key=lambda x: x[1], reverse=True)

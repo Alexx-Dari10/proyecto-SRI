@@ -10,9 +10,12 @@ from sklearn.cluster import KMeans
 def clustering(path):
     titles = []
     content = []
-    
+    empty_collection = False
+
     if os.path.isdir(path):
         for root, dirs, files in os.walk(path):
+            if len(files) == 0:
+                return [],[],True
             for filename in files:
                 with open(os.path.join(root,filename), encoding='utf8', errors='ignore') as f:
                     titles.append(filename)
@@ -65,7 +68,7 @@ def clustering(path):
         clust_docs[_cluster] = doc_list
         
     
-    return clust_docs, doc_clust
+    return clust_docs, doc_clust, empty_collection
     
     
 def tokenize_stemmer(text):

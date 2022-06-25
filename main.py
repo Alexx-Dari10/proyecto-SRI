@@ -5,10 +5,10 @@ from clustering import clustering
 from vectorial_model import vectorial_model
 
 # los documentos deben estar en la carpeta docs del directorio del proyecto
-path = os.getcwd() + '/docs/cranfield'
+path = os.getcwd() + '/static/docs/collection'
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! INSERTAR CONSULTA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-query = 'what similarity laws must be obeyed when constructing aeroelastic models of heated high speed aircraft .'
+query = 'a'
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CAMBIAR UMBRAL AQUI (VECTORIAL) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 umbral = 0.11
@@ -18,7 +18,7 @@ no_docs = 25
 
 
 # clustering 
-clust_docs, doc_clust = clustering(path)
+clust_docs, doc_clust, _ = clustering(path)
 
 # modelo vectorial
 _vectModel = vectorial_model(path)

@@ -12,7 +12,7 @@ from vectorial_model import vectorial_model
 
 # VARIABLES
 _host = 'localhost'
-_port = 3000
+_port = 3001
 
 global _model, _collection
 global clust_docs, doc_clust
@@ -30,25 +30,33 @@ def initModel(model, collection):
     path = os.getcwd() + '/static/docs/' + collection
 
     # !!!!!!!!!!!!!!!!!!!!!!!!!!! NUMERO DE DOCUMENTOS A DEVOLVER (BOOLEANO) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    no_docs = 30
+    no_docs = 25
 
     # clustering 
-    clust_docs, doc_clust = clustering(path, 5)
+    clust_docs, doc_clust, empty_collection = clustering(path)
 
     if model == 'vectorial':
         # modelo vectorial
-        return vectorial_model(path)
+        return vectorial_model(path),empty_collection
     
     elif model == 'booleano':
         # modelo booleano
-        return boolean_model(path) 
+        return boolean_model(path),empty_collection 
     else: 
-        return ''
+        return '',empty_collection
+
+def getDocsDir():
+    base_dir = path = os.getcwd() + '/static/docs/'
+    with os.scandir(base_dir) as files:
+        subdirectories = [file.name for file in files if file.is_dir()]
+        return subdirectories
+
+
 
 def jsonResult(query):
     
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CAMBIAR UMBRAL AQUI (VECTORIAL) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    umbral = 0.1
+    umbral = 0.11
    
     json_result = _model._getResults(query, umbral)
     
@@ -58,7 +66,8 @@ def jsonResult(query):
 # ROUTES
 @app.route('/', methods=["GET"])
 def home():
-    return render_template('home.html')
+
+    return render_template('home.html', subdirectories=getDocsDir()) 
 
 
 @app.route('/index', methods=["GET", "POST"])
@@ -72,9 +81,13 @@ def index():
         collection = request.form['collection']
 
         
-        _model = initModel(model, collection)
+        _model,empty_collection = initModel(model, collection)
+
+        if empty_collection:
+            return render_template("error.html", msg="Selected collection is empty")
         _collection = collection
 
+        
         return render_template('index.html')
 
     else:
